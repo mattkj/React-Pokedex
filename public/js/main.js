@@ -19433,25 +19433,20 @@ var Pokedex = React.createClass({
     return { pokemonList: null };
   },
   componentDidMount: function () {
-    HTTP.get('http://localhost:6060/pokemon').then(function (data) {
+    HTTP.get('api/v1/pokedex/1/').then(function (data) {
       this.setState({ pokemonList: data });
     }.bind(this));
   },
   render: function () {
     if (this.state.pokemonList) {
-      var displayPokemon = this.state.pokemonList.pokemon.map(function (pokemon) {
-        return pokemon.name;
+      var displayPokemon = this.state.pokemonList.pokemon.slice(5, 10).map(function (pokemon) {
+        return React.createElement(Pokemon, { key: pokemon.name, url: pokemon.resource_uri });
       });
     }
 
     return React.createElement(
       'div',
       { className: 'container' },
-      React.createElement(
-        'button',
-        { className: 'btn btn-danger' },
-        React.createElement(Pokemon, null)
-      ),
       React.createElement(
         'ul',
         null,
@@ -19465,22 +19460,62 @@ module.exports = Pokedex;
 
 },{"../services/http.js":163,"./Pokemon.jsx":161,"react":157}],161:[function(require,module,exports){
 var React = require('react');
+var HTTP = require('../services/http.js');
 
 var Pokemon = React.createClass({
   displayName: 'Pokemon',
 
+  getInitialState: function () {
+    return { pokemonStats: null };
+  },
+  componentDidMount: function () {
+    HTTP.get(this.props.url).then(function (data) {
+      this.setState({ pokemonStats: data });
+    }.bind(this));
+  },
   render: function () {
+    var data = this.state.pokemonStats;
+
+    if (data) {
+      var name = data.name;
+      var number = '#' + data.national_id;
+      var image = data.sprites[0].resource_uri;
+      var types = data.types.map(function (type) {
+        return type.name + ' ';
+      });
+    };
+
     return React.createElement(
-      'span',
+      'div',
       null,
-      'I am a Pokemon!'
+      React.createElement(
+        'div',
+        null,
+        image
+      ),
+      React.createElement(
+        'div',
+        null,
+        number
+      ),
+      React.createElement(
+        'div',
+        null,
+        name
+      ),
+      React.createElement(
+        'div',
+        null,
+        types
+      ),
+      React.createElement('br', null)
     );
   }
 });
 
 module.exports = Pokemon;
 
-},{"react":157}],162:[function(require,module,exports){
+},{"../services/http.js":163,"react":157}],162:[function(require,module,exports){
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Pokedex = require('./components/Pokedex.jsx');
@@ -19489,10 +19524,11 @@ ReactDOM.render(React.createElement(Pokedex, null), document.getElementById('pok
 
 },{"./components/Pokedex.jsx":160,"react":157,"react-dom":1}],163:[function(require,module,exports){
 var Fetch = require('whatwg-fetch');
+var baseUrl = "http://pokeapi.co/";
 
 var HTTP = {
   get: function (url) {
-    return fetch(url).then(function (response) {
+    return fetch(baseUrl + url).then(function (response) {
       return response.json();
     });
   }
