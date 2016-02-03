@@ -14,3 +14,7 @@
   border: none;
   background: #F2F2F2;
 }
+
+.pokemon h4{
+  font-weight: bold;
+}

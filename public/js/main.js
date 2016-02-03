@@ -19543,7 +19543,7 @@ var Pokemon = React.createClass({
         number
       ),
       React.createElement(
-        'div',
+        'h4',
         null,
         name
       ),

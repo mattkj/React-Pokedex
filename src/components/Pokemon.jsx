@@ -45,7 +45,7 @@ var Pokemon = React.createClass({
       <div className="pokemon">
         <div>{image}</div>
         <div>{number}</div>
-        <div>{name}</div>
+        <h4>{name}</h4>
         <div>{types}</div>
         <br />
       </div>
