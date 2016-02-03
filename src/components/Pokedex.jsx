@@ -7,9 +7,10 @@ var Pokedex = React.createClass({
     return {pokemonList: null};
   },
   componentDidMount: function(){
-    HTTP.get('api/v1/pokedex/1/')
+    HTTP.get('/api/v1/pokedex/1/')
     .then(function(data) {
       this.setState({pokemonList: data});
+      console.log("Received data:", data);
     }.bind(this));
   },
   render: function(){

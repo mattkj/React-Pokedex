@@ -19424,6 +19424,35 @@ process.umask = function() { return 0; };
 },{}],160:[function(require,module,exports){
 var React = require('react');
 var HTTP = require('../services/http.js');
+var baseUrl = "http://pokeapi.co";
+
+var Image = React.createClass({
+  displayName: 'Image',
+
+  getInitialState: function () {
+    return { pokemonImage: null };
+  },
+  componentDidMount: function () {
+    HTTP.get(this.props.url).then(function (data) {
+      this.setState({ pokemonImage: data });
+    }.bind(this));
+  },
+  render: function () {
+    var data = this.state.pokemonImage;
+
+    if (data) {
+      var imgSrc = baseUrl + data.image;
+    };
+
+    return React.createElement('img', { src: imgSrc });
+  }
+});
+
+module.exports = Image;
+
+},{"../services/http.js":164,"react":157}],161:[function(require,module,exports){
+var React = require('react');
+var HTTP = require('../services/http.js');
 var Pokemon = require('./Pokemon.jsx');
 
 var Pokedex = React.createClass({
@@ -19433,8 +19462,9 @@ var Pokedex = React.createClass({
     return { pokemonList: null };
   },
   componentDidMount: function () {
-    HTTP.get('api/v1/pokedex/1/').then(function (data) {
+    HTTP.get('/api/v1/pokedex/1/').then(function (data) {
       this.setState({ pokemonList: data });
+      console.log("Received data:", data);
     }.bind(this));
   },
   render: function () {
@@ -19458,9 +19488,10 @@ var Pokedex = React.createClass({
 
 module.exports = Pokedex;
 
-},{"../services/http.js":163,"./Pokemon.jsx":161,"react":157}],161:[function(require,module,exports){
+},{"../services/http.js":164,"./Pokemon.jsx":162,"react":157}],162:[function(require,module,exports){
 var React = require('react');
 var HTTP = require('../services/http.js');
+var Image = require('./Image.jsx');
 
 var Pokemon = React.createClass({
   displayName: 'Pokemon',
@@ -19469,8 +19500,9 @@ var Pokemon = React.createClass({
     return { pokemonStats: null };
   },
   componentDidMount: function () {
-    HTTP.get(this.props.url).then(function (data) {
+    HTTP.get('/' + this.props.url).then(function (data) {
       this.setState({ pokemonStats: data });
+      console.log("Received data:", data);
     }.bind(this));
   },
   render: function () {
@@ -19479,7 +19511,7 @@ var Pokemon = React.createClass({
     if (data) {
       var name = data.name;
       var number = '#' + data.national_id;
-      var image = data.sprites[0].resource_uri;
+      var image = React.createElement(Image, { url: data.sprites[0].resource_uri });
       var types = data.types.map(function (type) {
         return type.name + ' ';
       });
@@ -19487,7 +19519,7 @@ var Pokemon = React.createClass({
 
     return React.createElement(
       'div',
-      null,
+      { className: 'pokemon' },
       React.createElement(
         'div',
         null,
@@ -19515,16 +19547,16 @@ var Pokemon = React.createClass({
 
 module.exports = Pokemon;
 
-},{"../services/http.js":163,"react":157}],162:[function(require,module,exports){
+},{"../services/http.js":164,"./Image.jsx":160,"react":157}],163:[function(require,module,exports){
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Pokedex = require('./components/Pokedex.jsx');
 
 ReactDOM.render(React.createElement(Pokedex, null), document.getElementById('pokedex'));
 
-},{"./components/Pokedex.jsx":160,"react":157,"react-dom":1}],163:[function(require,module,exports){
+},{"./components/Pokedex.jsx":161,"react":157,"react-dom":1}],164:[function(require,module,exports){
 var Fetch = require('whatwg-fetch');
-var baseUrl = "http://pokeapi.co/";
+var baseUrl = "http://pokeapi.co";
 
 var HTTP = {
   get: function (url) {
@@ -19536,4 +19568,4 @@ var HTTP = {
 
 module.exports = HTTP;
 
-},{"whatwg-fetch":159}]},{},[162]);
+},{"whatwg-fetch":159}]},{},[163]);
