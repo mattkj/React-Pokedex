@@ -1,6 +1,16 @@
+.wrapper{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.pokemon{
+  margin: 20px 10px;
+}
+
 .pokemon img{
   width: 120px;
   height: 120px;
-  border-radius: 50%;
-  background: Cyan;
+  border: none;
+  background: #F2F2F2;
 }

@@ -19464,12 +19464,11 @@ var Pokedex = React.createClass({
   componentDidMount: function () {
     HTTP.get('/api/v1/pokedex/1/').then(function (data) {
       this.setState({ pokemonList: data });
-      console.log("Received data:", data);
     }.bind(this));
   },
   render: function () {
     if (this.state.pokemonList) {
-      var displayPokemon = this.state.pokemonList.pokemon.slice(5, 10).map(function (pokemon) {
+      var displayPokemon = this.state.pokemonList.pokemon.slice(0, 10).map(function (pokemon) {
         return React.createElement(Pokemon, { key: pokemon.name, url: pokemon.resource_uri });
       });
     }
@@ -19478,8 +19477,8 @@ var Pokedex = React.createClass({
       'div',
       { className: 'container' },
       React.createElement(
-        'ul',
-        null,
+        'div',
+        { className: 'wrapper' },
         displayPokemon
       )
     );
@@ -19502,15 +19501,28 @@ var Pokemon = React.createClass({
   componentDidMount: function () {
     HTTP.get('/' + this.props.url).then(function (data) {
       this.setState({ pokemonStats: data });
-      console.log("Received data:", data);
     }.bind(this));
+  },
+  formatNumber: function (number) {
+    var length = number.toString().length;
+
+    switch (length) {
+      case 1:
+        return '#' + ('00' + number).slice(-4);
+        break;
+      case 2:
+        return '#' + ('0' + number).slice(-4);
+        break;
+      default:
+        return '#' + number;
+    };
   },
   render: function () {
     var data = this.state.pokemonStats;
 
     if (data) {
       var name = data.name;
-      var number = '#' + data.national_id;
+      var number = this.formatNumber(data.national_id);
       var image = React.createElement(Image, { url: data.sprites[0].resource_uri });
       var types = data.types.map(function (type) {
         return type.name + ' ';
