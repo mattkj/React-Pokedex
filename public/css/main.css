@@ -1,20 +1,47 @@
-.wrapper{
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-}
+.wrapper { display: flex; flex-wrap: wrap; justify-content: flex-start; }
 
-.pokemon{
-  margin: 20px 10px;
-}
+.pokemon { margin: 20px 10px; }
 
-.pokemon img{
-  width: 120px;
-  height: 120px;
-  border: none;
-  background: #F2F2F2;
-}
+.pokemon img { width: 120px; height: 120px; border: none; background: #F2F2F2; }
 
-.pokemon h4{
-  font-weight: bold;
-}
+.pokemon h4 { font-weight: bold; }
+
+.pokemon .type { display: inline-block; background: #333; padding: 4px 10px; border-radius: 5px; font-size: 12px; color: White; }
+
+.pokemon .type:first-child { margin-right: 5px; }
+
+.pokemon .type-1 { background: #A8A878; }
+
+.pokemon .type-2 { background: #C03028; }
+
+.pokemon .type-3 { background: #A890F0; }
+
+.pokemon .type-4 { background: #A040A0; }
+
+.pokemon .type-5 { background: #E0C068; color: Black; }
+
+.pokemon .type-6 { background: #B8A038; }
+
+.pokemon .type-7 { background: #A8B820; }
+
+.pokemon .type-8 { background: #705898; }
+
+.pokemon .type-9 { background: #B8B8D0; }
+
+.pokemon .type-10 { background: #F08030; }
+
+.pokemon .type-11 { background: #6890F0; }
+
+.pokemon .type-12 { background: #78C850; }
+
+.pokemon .type-13 { background: #F8D030; color: Black; }
+
+.pokemon .type-14 { background: #F85888; }
+
+.pokemon .type-15 { background: #98D8D8; }
+
+.pokemon .type-16 { background: #7038F8; }
+
+.pokemon .type-17 { background: #705848; }
+
+.pokemon .type-18 { background: #705848; }

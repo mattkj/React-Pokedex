@@ -1,0 +1,48 @@
+.wrapper{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.pokemon{
+  margin: 20px 10px;
+  img{
+    width: 120px;
+    height: 120px;
+    border: none;
+    background: #F2F2F2;
+  }
+
+  h4{
+    font-weight: bold;
+  }
+  .type{
+    display: inline-block;
+    background: #333;
+    padding: 4px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    color: White;
+  }
+  .type:first-child{
+    margin-right: 5px;
+  }
+  .type-1{background: #A8A878;}
+  .type-2{background: #C03028;}
+  .type-3{background: #A890F0;}
+  .type-4{background: #A040A0;}
+  .type-5{background: #E0C068; color: Black;}
+  .type-6{background: #B8A038;}
+  .type-7{background: #A8B820;}
+  .type-8{background: #705898;}
+  .type-9{background: #B8B8D0;}
+  .type-10{background: #F08030;}
+  .type-11{background: #6890F0;}
+  .type-12{background: #78C850;}
+  .type-13{background: #F8D030; color: Black;}
+  .type-14{background: #F85888;}
+  .type-15{background: #98D8D8;}
+  .type-16{background: #7038F8;}
+  .type-17{background: #705848;}
+  .type-18{background: #705848;}
+}

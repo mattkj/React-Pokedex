@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "watchify src/main.jsx -v -t [ babelify --presets [ react ] ] -o public/js/main.js",
+    "start": "npm run build-js",
+    "build-js": "watchify src/main.jsx -v -t [ babelify --presets [ react ] ] -o public/js/main.js",
+    "build-css": "node-sass --output-style compact src/scss/ -o public/css/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,5 +26,8 @@
     "react-dom": "^0.14.6",
     "watchify": "^3.7.0",
     "whatwg-fetch": "^0.11.0"
+  },
+  "devDependencies": {
+    "node-sass": "^3.4.2"
   }
 }

@@ -14,7 +14,7 @@ var Pokedex = React.createClass({
   },
   render: function(){
     if (this.state.pokemonList){
-      var displayPokemon = this.state.pokemonList.pokemon.slice(0,10).map(function(pokemon){
+      var displayPokemon = this.state.pokemonList.pokemon.slice(0,24).map(function(pokemon){
         return <Pokemon key={pokemon.name} url={pokemon.resource_uri} />;
       });
     }
