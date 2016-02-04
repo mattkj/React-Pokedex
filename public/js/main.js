@@ -19450,7 +19450,7 @@ var Image = React.createClass({
 
 module.exports = Image;
 
-},{"../services/http.js":164,"react":157}],161:[function(require,module,exports){
+},{"../services/http.js":165,"react":157}],161:[function(require,module,exports){
 var React = require('react');
 var HTTP = require('../services/http.js');
 var Pokemon = require('./Pokemon.jsx');
@@ -19487,10 +19487,11 @@ var Pokedex = React.createClass({
 
 module.exports = Pokedex;
 
-},{"../services/http.js":164,"./Pokemon.jsx":162,"react":157}],162:[function(require,module,exports){
+},{"../services/http.js":165,"./Pokemon.jsx":162,"react":157}],162:[function(require,module,exports){
 var React = require('react');
 var HTTP = require('../services/http.js');
 var Image = require('./Image.jsx');
+var Type = require('./Type.jsx');
 
 var Pokemon = React.createClass({
   displayName: 'Pokemon',
@@ -19501,6 +19502,7 @@ var Pokemon = React.createClass({
   componentDidMount: function () {
     HTTP.get('/' + this.props.url).then(function (data) {
       this.setState({ pokemonStats: data });
+      // console.log(data);
     }.bind(this));
   },
   formatNumber: function (number) {
@@ -19525,7 +19527,7 @@ var Pokemon = React.createClass({
       var number = this.formatNumber(data.national_id);
       var image = React.createElement(Image, { url: data.sprites[0].resource_uri });
       var types = data.types.map(function (type) {
-        return type.name + ' ';
+        return React.createElement(Type, { key: type.name, name: type.name, id: type.resource_uri });
       });
     };
 
@@ -19551,22 +19553,45 @@ var Pokemon = React.createClass({
         'div',
         null,
         types
-      ),
-      React.createElement('br', null)
+      )
     );
   }
 });
 
 module.exports = Pokemon;
 
-},{"../services/http.js":164,"./Image.jsx":160,"react":157}],163:[function(require,module,exports){
+},{"../services/http.js":165,"./Image.jsx":160,"./Type.jsx":163,"react":157}],163:[function(require,module,exports){
+var React = require('react');
+var HTTP = require('../services/http.js');
+var baseUrl = "http://pokeapi.co";
+
+var Type = React.createClass({
+  displayName: 'Type',
+
+  render: function () {
+
+    //get type id from api resource url
+    var pathArray = this.props.id.split('/');
+    var id = pathArray[4];
+
+    return React.createElement(
+      'div',
+      { className: "type type-" + id },
+      this.props.name
+    );
+  }
+});
+
+module.exports = Type;
+
+},{"../services/http.js":165,"react":157}],164:[function(require,module,exports){
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Pokedex = require('./components/Pokedex.jsx');
 
 ReactDOM.render(React.createElement(Pokedex, null), document.getElementById('pokedex'));
 
-},{"./components/Pokedex.jsx":161,"react":157,"react-dom":1}],164:[function(require,module,exports){
+},{"./components/Pokedex.jsx":161,"react":157,"react-dom":1}],165:[function(require,module,exports){
 var Fetch = require('whatwg-fetch');
 var baseUrl = "http://pokeapi.co";
 
@@ -19580,4 +19605,4 @@ var HTTP = {
 
 module.exports = HTTP;
 
-},{"whatwg-fetch":159}]},{},[163]);
+},{"whatwg-fetch":159}]},{},[164]);
