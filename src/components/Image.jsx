@@ -14,6 +14,7 @@ var Image = React.createClass({
   },
   render: function(){
     var data = this.state.pokemonImage;
+    // var imgSrc = 'loader.gif';
 
     if (data){
       var imgSrc = baseUrl + data.image;

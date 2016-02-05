@@ -1,16 +1,18 @@
 var React = require('react');
-var HTTP = require('../services/http.js');
 var Pokemon = require('./Pokemon.jsx');
 
+var Reflux = require('reflux');
+var Actions = require('../reflux/actions.jsx');
+var PokemonStore = require('../reflux/pokemon-store.jsx');
+
 var Pokedex = React.createClass({
+  mixins: [Reflux.connect(PokemonStore,"pokemonList")],
+
   getInitialState: function(){
     return {pokemonList: null};
   },
   componentDidMount: function(){
-    HTTP.get('/api/v1/pokedex/1/')
-    .then(function(data) {
-      this.setState({pokemonList: data});
-    }.bind(this));
+    Actions.getPokemonList();
   },
   render: function(){
     if (this.state.pokemonList){

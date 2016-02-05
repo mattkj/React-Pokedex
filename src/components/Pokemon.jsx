@@ -1,18 +1,19 @@
 var React = require('react');
-var HTTP = require('../services/http.js');
 var Image = require('./Image.jsx');
 var Type = require('./Type.jsx');
 
+var Reflux = require('reflux');
+var Actions = require('../reflux/actions.jsx');
+var PokemonStore = require('../reflux/pokemon-store.jsx');
+
 var Pokemon = React.createClass({
+  mixins: [Reflux.connect(PokemonStore,"pokemonStats")],
+
   getInitialState: function(){
     return {pokemonStats: null};
   },
   componentDidMount: function(){
-    HTTP.get('/' + this.props.url)
-    .then(function(data) {
-      this.setState({pokemonStats: data});
-      // console.log(data);
-    }.bind(this));
+    Actions.getPokemonStats(this.props.url);
   },
   formatNumber: function(number){
     var length = number.toString().length;
