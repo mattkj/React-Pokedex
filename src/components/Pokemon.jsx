@@ -4,16 +4,19 @@ var Type = require('./Type.jsx');
 
 var Reflux = require('reflux');
 var Actions = require('../reflux/actions.jsx');
-var PokemonStore = require('../reflux/pokemon-store.jsx');
+var PokemonStatsStore = require('../reflux/pokemonStats-store.jsx');
 
 var Pokemon = React.createClass({
-  mixins: [Reflux.connect(PokemonStore,"pokemonStats")],
-
+  // mixins: [Reflux.connect(PokemonStatsStore,"pokemonStats")],
+  mixins: [Reflux.listenTo(PokemonStatsStore, "onChange")],
   getInitialState: function(){
     return {pokemonStats: null};
   },
   componentDidMount: function(){
     Actions.getPokemonStats(this.props.url);
+  },
+  onChange: function(data){
+    this.setState({pokemonStats: data});
   },
   formatNumber: function(number){
     var length = number.toString().length;
@@ -31,6 +34,7 @@ var Pokemon = React.createClass({
   },
   render: function(){
     var data = this.state.pokemonStats;
+    console.log(data);
 
     if (data){
       var name = data.name;

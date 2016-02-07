@@ -20776,18 +20776,18 @@ var Image = React.createClass({
 
 module.exports = Image;
 
-},{"../services/http.js":186,"react":157}],180:[function(require,module,exports){
+},{"../services/http.js":187,"react":157}],180:[function(require,module,exports){
 var React = require('react');
 var Pokemon = require('./Pokemon.jsx');
 
 var Reflux = require('reflux');
 var Actions = require('../reflux/actions.jsx');
-var PokemonStore = require('../reflux/pokemon-store.jsx');
+var PokemonListStore = require('../reflux/pokemonList-store.jsx');
 
 var Pokedex = React.createClass({
   displayName: 'Pokedex',
 
-  mixins: [Reflux.connect(PokemonStore, "pokemonList")],
+  mixins: [Reflux.connect(PokemonListStore, "pokemonList")],
 
   getInitialState: function () {
     return { pokemonList: null };
@@ -20797,7 +20797,8 @@ var Pokedex = React.createClass({
   },
   render: function () {
     if (this.state.pokemonList) {
-      var displayPokemon = this.state.pokemonList.pokemon.slice(0, 24).map(function (pokemon) {
+      var displayPokemon = this.state.pokemonList.pokemon.slice(0, 2).map(function (pokemon) {
+        console.log(pokemon);
         return React.createElement(Pokemon, { key: pokemon.name, url: pokemon.resource_uri });
       });
     }
@@ -20816,25 +20817,28 @@ var Pokedex = React.createClass({
 
 module.exports = Pokedex;
 
-},{"../reflux/actions.jsx":184,"../reflux/pokemon-store.jsx":185,"./Pokemon.jsx":181,"react":157,"reflux":174}],181:[function(require,module,exports){
+},{"../reflux/actions.jsx":184,"../reflux/pokemonList-store.jsx":185,"./Pokemon.jsx":181,"react":157,"reflux":174}],181:[function(require,module,exports){
 var React = require('react');
 var Image = require('./Image.jsx');
 var Type = require('./Type.jsx');
 
 var Reflux = require('reflux');
 var Actions = require('../reflux/actions.jsx');
-var PokemonStore = require('../reflux/pokemon-store.jsx');
+var PokemonStatsStore = require('../reflux/pokemonStats-store.jsx');
 
 var Pokemon = React.createClass({
   displayName: 'Pokemon',
 
-  mixins: [Reflux.connect(PokemonStore, "pokemonStats")],
-
+  // mixins: [Reflux.connect(PokemonStatsStore,"pokemonStats")],
+  mixins: [Reflux.listenTo(PokemonStatsStore, "onChange")],
   getInitialState: function () {
     return { pokemonStats: null };
   },
   componentDidMount: function () {
     Actions.getPokemonStats(this.props.url);
+  },
+  onChange: function (data) {
+    this.setState({ pokemonStats: data });
   },
   formatNumber: function (number) {
     var length = number.toString().length;
@@ -20852,6 +20856,7 @@ var Pokemon = React.createClass({
   },
   render: function () {
     var data = this.state.pokemonStats;
+    console.log(data);
 
     if (data) {
       var name = data.name;
@@ -20891,7 +20896,7 @@ var Pokemon = React.createClass({
 
 module.exports = Pokemon;
 
-},{"../reflux/actions.jsx":184,"../reflux/pokemon-store.jsx":185,"./Image.jsx":179,"./Type.jsx":182,"react":157,"reflux":174}],182:[function(require,module,exports){
+},{"../reflux/actions.jsx":184,"../reflux/pokemonStats-store.jsx":186,"./Image.jsx":179,"./Type.jsx":182,"react":157,"reflux":174}],182:[function(require,module,exports){
 var React = require('react');
 var HTTP = require('../services/http.js');
 var baseUrl = "http://pokeapi.co";
@@ -20915,7 +20920,7 @@ var Type = React.createClass({
 
 module.exports = Type;
 
-},{"../services/http.js":186,"react":157}],183:[function(require,module,exports){
+},{"../services/http.js":187,"react":157}],183:[function(require,module,exports){
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Pokedex = require('./components/Pokedex.jsx');
@@ -20934,35 +20939,38 @@ var HTTP = require('../services/http.js');
 var Reflux = require('reflux');
 var Actions = require('./actions.jsx');
 
-var PokemonStore = Reflux.createStore({
+var PokemonListStore = Reflux.createStore({
   listenables: [Actions],
-
-  getInitialState: function () {
-    return { pokemonList: null, pokemonStats: null };
-  },
 
   getPokemonList: function () {
     HTTP.get('/api/v1/pokedex/1/').then(function (data) {
-      this.pokemonList = data;
-      this.trigger(this.pokemonList);
+      this.trigger(data);
     }.bind(this));
-  },
+  }
 
-  getPokemonStats: function (url) {
-    console.log(url);
-    // HTTP.get('/' + url)
-    // .then(function(data2) {
-    //   this.pokemonStats = data2;
-    //   this.trigger(this.pokemonStats);
-    // }.bind(this));
-  },
-
-  getPokemonImage: function () {}
 });
 
-module.exports = PokemonStore;
+module.exports = PokemonListStore;
 
-},{"../services/http.js":186,"./actions.jsx":184,"reflux":174}],186:[function(require,module,exports){
+},{"../services/http.js":187,"./actions.jsx":184,"reflux":174}],186:[function(require,module,exports){
+var HTTP = require('../services/http.js');
+var Reflux = require('reflux');
+var Actions = require('./actions.jsx');
+
+var PokemonStatsStore = Reflux.createStore({
+  listenables: [Actions],
+
+  getPokemonStats: function (url) {
+    HTTP.get('/' + url).then(function (data) {
+      this.trigger(data);
+    }.bind(this));
+  }
+
+});
+
+module.exports = PokemonStatsStore;
+
+},{"../services/http.js":187,"./actions.jsx":184,"reflux":174}],187:[function(require,module,exports){
 var Fetch = require('whatwg-fetch');
 var baseUrl = "http://pokeapi.co";
 
