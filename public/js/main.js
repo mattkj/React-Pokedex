@@ -19439,12 +19439,22 @@ var Image = React.createClass({
   },
   render: function () {
     var data = this.state.pokemonImage;
+    var img = React.createElement(
+      'div',
+      { className: 'placeholder-image' },
+      React.createElement('img', { src: 'loader.gif' })
+    );
 
     if (data) {
       var imgSrc = baseUrl + data.image;
+      var img = React.createElement('img', { src: imgSrc });
     };
 
-    return React.createElement('img', { src: imgSrc });
+    return React.createElement(
+      'span',
+      null,
+      img
+    );
   }
 });
 
@@ -19475,12 +19485,8 @@ var Pokedex = React.createClass({
 
     return React.createElement(
       'div',
-      { className: 'container' },
-      React.createElement(
-        'div',
-        { className: 'wrapper' },
-        displayPokemon
-      )
+      { className: 'wrapper' },
+      displayPokemon
     );
   }
 });

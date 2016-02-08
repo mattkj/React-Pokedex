@@ -14,13 +14,15 @@ var Image = React.createClass({
   },
   render: function(){
     var data = this.state.pokemonImage;
+    var img = <div className="placeholder-image"><img src="loader.gif" /></div>;
 
     if (data){
       var imgSrc = baseUrl + data.image;
+      var img = <img src={imgSrc} />;
     };
 
     return (
-      <img src={imgSrc} />
+      <span>{img}</span>
     );
   }
 });

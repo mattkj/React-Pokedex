@@ -20,9 +20,7 @@ var Pokedex = React.createClass({
     }
 
     return (
-      <div className="container">
-        <div className="wrapper">{displayPokemon}</div>
-      </div>
+      <div className="wrapper">{displayPokemon}</div>
     );
   }
 });
