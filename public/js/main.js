@@ -19469,29 +19469,38 @@ var Pokedex = React.createClass({
   displayName: 'Pokedex',
 
   getInitialState: function () {
-    return { pokemonList: null };
+    return { pokemonList: null, pokemonStats: null };
   },
   componentDidMount: function () {
     HTTP.get('/api/v1/pokedex/1/').then(function (data) {
-      console.log("data:", data);
+      console.log("pokemonList:", data);
       this.setState({ pokemonList: data });
     }.bind(this));
   },
-  filterPokemon(filterBy) {
-    var newList = this.state.pokemonList.pokemon.slice(0, 24).filter(function (pokemon) {
-      return pokemon.name <= filterBy;
-    });
-    console.log("filtered list:", newList);
+
+  getPokemonStats: function (url) {
+    HTTP.get('/' + url).then(function (data) {
+      this.setState({ pokemonStats: data });
+      console.log("pokemonStats:", data);
+    }.bind(this));
+    console.log('getPokemonStats fired');
   },
+
+  // filterPokemon(filterBy){
+  //   var newList = this.state.pokemonList.pokemon.slice(0,24).filter(function(pokemon){
+  //     return pokemon.name <= filterBy;
+  //   });
+  //   console.log("filtered list:", newList);
+  // },
+
   render: function () {
     if (this.state.pokemonList) {
-      console.log("original list:", this.state.pokemonList.pokemon.slice(0, 24));
 
-      var displayPokemon = this.state.pokemonList.pokemon.slice(0, 24).map(function (pokemon) {
-        return React.createElement(Pokemon, { key: pokemon.name, url: pokemon.resource_uri });
-      });
+      var displayPokemon = this.state.pokemonList.pokemon.slice(0, 2).map(function (pokemon) {
+        return React.createElement(Pokemon, { key: pokemon.name, name: pokemon.name, data: this.state.pokemonStats, url: pokemon.resource_uri, getPokemonStats: this.getPokemonStats });
+      }.bind(this));
 
-      this.filterPokemon("c");
+      // this.filterPokemon("c");
     }
 
     return React.createElement(
@@ -19513,14 +19522,8 @@ var Type = require('./Type.jsx');
 var Pokemon = React.createClass({
   displayName: 'Pokemon',
 
-  getInitialState: function () {
-    return { pokemonStats: null };
-  },
-  componentDidMount: function () {
-    HTTP.get('/' + this.props.url).then(function (data) {
-      this.setState({ pokemonStats: data });
-      // console.log(data);
-    }.bind(this));
+  componentWillMount: function () {
+    this.props.getPokemonStats(this.props.url);
   },
   formatNumber: function (number) {
     var length = number.toString().length;
@@ -19537,7 +19540,11 @@ var Pokemon = React.createClass({
     };
   },
   render: function () {
-    var data = this.state.pokemonStats;
+    // var data = this.state.pokemonStats;
+    var data = this.props.data;
+
+    console.log('this.props.data:', data);
+    console.log(this.props.name + ' rendered');
 
     if (data) {
       var name = data.name;

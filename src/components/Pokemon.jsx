@@ -4,15 +4,8 @@ var Image = require('./Image.jsx');
 var Type = require('./Type.jsx');
 
 var Pokemon = React.createClass({
-  getInitialState: function(){
-    return {pokemonStats: null};
-  },
-  componentDidMount: function(){
-    HTTP.get('/' + this.props.url)
-    .then(function(data) {
-      this.setState({pokemonStats: data});
-      // console.log(data);
-    }.bind(this));
+  componentWillMount: function(){
+      this.props.getPokemonStats(this.props.url);
   },
   formatNumber: function(number){
     var length = number.toString().length;
@@ -29,7 +22,11 @@ var Pokemon = React.createClass({
     };
   },
   render: function(){
-    var data = this.state.pokemonStats;
+    // var data = this.state.pokemonStats;
+    var data = this.props.data;
+
+    console.log('this.props.data:',data);
+    console.log(this.props.name + ' rendered');
 
     if (data){
       var name = data.name;
