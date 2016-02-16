@@ -4,9 +4,6 @@ var Image = require('./Image.jsx');
 var Type = require('./Type.jsx');
 
 var Pokemon = React.createClass({
-  componentWillMount: function(){
-      this.props.getPokemonStats(this.props.url);
-  },
   formatNumber: function(number){
     var length = number.toString().length;
     
@@ -22,11 +19,10 @@ var Pokemon = React.createClass({
     };
   },
   render: function(){
-    // var data = this.state.pokemonStats;
     var data = this.props.data;
 
-    console.log('this.props.data:',data);
-    console.log(this.props.name + ' rendered');
+    // console.log('this.props.data:',data);
+    // console.log(this.props.name + ' rendered');
 
     if (data){
       var name = data.name;

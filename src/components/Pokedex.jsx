@@ -4,40 +4,34 @@ var Pokemon = require('./Pokemon.jsx');
 
 var Pokedex = React.createClass({
   getInitialState: function(){
-    return {pokemonList: null, pokemonStats: null};
+    return {pokemonList: null};
   },
   componentDidMount: function(){
     HTTP.get('/api/v1/pokedex/1/')
     .then(function(data) {
-      console.log("pokemonList:", data);
-      this.setState({pokemonList: data});
+      this.setState({pokemonList: data.pokemon.slice(0, 24)});
+      this.state.pokemonList.map(function(pokemon, index){
+        this.getPokemonStats(pokemon.resource_uri, index);
+      }.bind(this));
     }.bind(this));
   },
 
-  getPokemonStats: function(url){
+  getPokemonStats: function(url, index){
     HTTP.get('/' + url)
     .then(function(data) {
-      this.setState({pokemonStats: data});
-      console.log("pokemonStats:", data);
+      var pokemon = this.state.pokemonList[index];
+      pokemon.stats = data;
+      this.forceUpdate();
     }.bind(this));
-    console.log('getPokemonStats fired');
   },
-
-  // filterPokemon(filterBy){
-  //   var newList = this.state.pokemonList.pokemon.slice(0,24).filter(function(pokemon){
-  //     return pokemon.name <= filterBy;
-  //   });
-  //   console.log("filtered list:", newList);
-  // },
 
   render: function(){
     if (this.state.pokemonList){
+      // console.log('pokemonList:', this.state.pokemonList);
 
-      var displayPokemon = this.state.pokemonList.pokemon.slice(0,2).map(function(pokemon){
-        return <Pokemon key={pokemon.name} name={pokemon.name} data={this.state.pokemonStats} url={pokemon.resource_uri} getPokemonStats={this.getPokemonStats} />;
+      var displayPokemon = this.state.pokemonList.map(function(pokemon){
+        return <Pokemon key={pokemon.name} name={pokemon.name} data={pokemon.stats} url={pokemon.resource_uri} />;
       }.bind(this));
-
-      // this.filterPokemon("c");
     }
 
     return (
