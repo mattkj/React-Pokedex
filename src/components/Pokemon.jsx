@@ -21,13 +21,10 @@ var Pokemon = React.createClass({
   render: function(){
     var data = this.props.data;
 
-    // console.log('this.props.data:',data);
-    // console.log(this.props.name + ' rendered');
-
     if (data){
       var name = data.name;
       var number = this.formatNumber(data.national_id);
-      var image = <Image url={data.sprites[0].resource_uri} />;
+      var image = <Image url={data.image ? data.image.image : null} />;
       var types = data.types.map(function(type){
         return <Type key={type.name} name={type.name} id={type.resource_uri} />;
       });

@@ -22,15 +22,23 @@ var Pokedex = React.createClass({
       var pokemon = this.state.pokemonList[index];
       pokemon.stats = data;
       this.forceUpdate();
+      this.getPokemonImage(data.sprites[0].resource_uri, index)
+    }.bind(this));
+  },
+
+  getPokemonImage: function(url, index){
+    HTTP.get(url)
+    .then(function(data) {
+      var pokemon = this.state.pokemonList[index];
+      pokemon.stats.image = data;
+      this.forceUpdate();
     }.bind(this));
   },
 
   render: function(){
     if (this.state.pokemonList){
-      // console.log('pokemonList:', this.state.pokemonList);
-
       var displayPokemon = this.state.pokemonList.map(function(pokemon){
-        return <Pokemon key={pokemon.name} name={pokemon.name} data={pokemon.stats} url={pokemon.resource_uri} />;
+        return <Pokemon key={pokemon.name} name={pokemon.name} data={pokemon.stats} />;
       }.bind(this));
     }
 

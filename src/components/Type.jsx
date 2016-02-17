@@ -1,6 +1,4 @@
 var React = require('react');
-var HTTP = require('../services/http.js');
-var baseUrl = "http://pokeapi.co";
 
 var Type = React.createClass({
   render: function(){
