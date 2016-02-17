@@ -19506,7 +19506,6 @@ module.exports = Pokedex;
 
 },{"../services/http.js":165,"./Pokemon.jsx":162,"react":157}],162:[function(require,module,exports){
 var React = require('react');
-var HTTP = require('../services/http.js');
 var Image = require('./Image.jsx');
 var Type = require('./Type.jsx');
 
@@ -19568,7 +19567,7 @@ var Pokemon = React.createClass({
 
 module.exports = Pokemon;
 
-},{"../services/http.js":165,"./Image.jsx":160,"./Type.jsx":163,"react":157}],163:[function(require,module,exports){
+},{"./Image.jsx":160,"./Type.jsx":163,"react":157}],163:[function(require,module,exports){
 var React = require('react');
 
 var Type = React.createClass({

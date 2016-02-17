@@ -1,5 +1,4 @@
 var React = require('react');
-var HTTP = require('../services/http.js');
 var Image = require('./Image.jsx');
 var Type = require('./Type.jsx');
 
