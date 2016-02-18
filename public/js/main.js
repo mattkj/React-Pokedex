@@ -19493,19 +19493,19 @@ var Pokedex = React.createClass({
     }.bind(this));
   },
 
-  filterPokemon() {
+  filterPokemon: function () {
     // var filteredList = this.state.pokemonList.filter(function(pokemon){
     //   return pokemon.name <= "c";
     // });
     // this.setState({pokemonList: filteredList});
   },
 
-  handleFilterChange(e) {
+  handleFilterChange: function (e) {
     this.setState({ filterValue: e.target.value });
     this.filterPokemon(e.target.value);
   },
 
-  sortPokemon(sortBy) {
+  sortPokemon: function (sortBy) {
     var sortedList = this.state.pokemonList.sort(function (a, b) {
       switch (sortBy) {
         case 'nameAsc':
@@ -19525,7 +19525,7 @@ var Pokedex = React.createClass({
     this.setState({ pokemonList: sortedList });
   },
 
-  handleSortChange(e) {
+  handleSortChange: function (e) {
     this.setState({ sortValue: e.target.value });
     this.sortPokemon(e.target.value);
   },
