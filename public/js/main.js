@@ -19464,11 +19464,6 @@ var Pokedex = React.createClass({
   componentDidMount: function () {
     this.getPokemonList();
   },
-  componentDidUpdate: function () {
-    // if (this.state.pokemonList[23].stats){
-    //   this.sortPokemon(this.state.sortValue);
-    // }
-  },
   getPokemonList: function () {
     HTTP.get('/api/v1/pokedex/1/').then(function (data) {
       this.setState({ pokemonList: data.pokemon.slice(0, 24) });
@@ -19505,11 +19500,22 @@ var Pokedex = React.createClass({
 
   sortPokemon(sortBy) {
     var sortedList = this.state.pokemonList.sort(function (a, b) {
-      // return parseInt(a.stats.national_id) - parseInt(b.stats.national_id);
-      return a.name.localeCompare(b.name);
+      switch (sortBy) {
+        case 'nameAsc':
+          return a.name.localeCompare(b.name);
+          break;
+        case 'nameDsc':
+          return b.name.localeCompare(a.name);
+          break;
+        case 'numberAsc':
+          return parseInt(a.stats.national_id) - parseInt(b.stats.national_id);
+          break;
+        case 'numberDsc':
+          return parseInt(b.stats.national_id) - parseInt(a.stats.national_id);
+          break;
+      };
     });
     this.setState({ pokemonList: sortedList });
-    console.log('Sorted by: ', sortBy);
   },
 
   handleSortChange(e) {
