@@ -4,7 +4,9 @@ var Pokemon = require('./Pokemon.jsx');
 
 var Pokedex = React.createClass({
   getInitialState: function(){
-    return {pokemonList: null, sortValue: 'nameAsc'};
+    return {pokemonList: null, 
+            sortValue: 'nameAsc', 
+            filterValue: ''};
   },
   componentDidMount: function(){
     this.getPokemonList();
@@ -40,10 +42,15 @@ var Pokedex = React.createClass({
   },
 
   filterPokemon(){
-    var filteredList = this.state.pokemonList.filter(function(pokemon){
-      return pokemon.name <= "c";
-    });
-    this.setState({pokemonList: filteredList});
+    // var filteredList = this.state.pokemonList.filter(function(pokemon){
+    //   return pokemon.name <= "c";
+    // });
+    // this.setState({pokemonList: filteredList});
+  },
+
+  handleFilterChange(e){
+    this.setState({filterValue: e.target.value});
+    this.filterPokemon(e.target.value);
   },
 
   sortPokemon(sortBy){
@@ -80,14 +87,18 @@ var Pokedex = React.createClass({
 
     return (
       <div>
-        <div className="text-center">
-          <button className="btn btn-primary" onClick={this.filterPokemon}>Filter</button>
-          <select value={this.state.sortValue} onChange={this.handleSortChange} className="form-control">
-            <option value="nameAsc">A-Z</option>
-            <option value="nameDsc">Z-A</option>
-            <option value="numberAsc">Lowest Number</option>
-            <option value="numberDsc">Highest Number</option>
-          </select>
+        <div className="row">
+          <div className="col-xs-12 col-sm-5 col-sm-offset-1">
+            <input className="form-control" value={this.state.filterValue} onChange={this.handleFilterChange} placeholder="Name or Number to filter by" />
+          </div>
+          <div className="col-xs-12 col-sm-5">
+            <select className="form-control" value={this.state.sortValue} onChange={this.handleSortChange}>
+              <option value="nameAsc">A-Z</option>
+              <option value="nameDsc">Z-A</option>
+              <option value="numberAsc">Lowest Number</option>
+              <option value="numberDsc">Highest Number</option>
+            </select>
+          </div>
         </div>
         <div className="wrapper">{displayPokemon}</div>
       </div>

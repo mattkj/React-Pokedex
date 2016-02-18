@@ -19459,7 +19459,9 @@ var Pokedex = React.createClass({
   displayName: 'Pokedex',
 
   getInitialState: function () {
-    return { pokemonList: null, sortValue: 'nameAsc' };
+    return { pokemonList: null,
+      sortValue: 'nameAsc',
+      filterValue: '' };
   },
   componentDidMount: function () {
     this.getPokemonList();
@@ -19492,10 +19494,15 @@ var Pokedex = React.createClass({
   },
 
   filterPokemon() {
-    var filteredList = this.state.pokemonList.filter(function (pokemon) {
-      return pokemon.name <= "c";
-    });
-    this.setState({ pokemonList: filteredList });
+    // var filteredList = this.state.pokemonList.filter(function(pokemon){
+    //   return pokemon.name <= "c";
+    // });
+    // this.setState({pokemonList: filteredList});
+  },
+
+  handleFilterChange(e) {
+    this.setState({ filterValue: e.target.value });
+    this.filterPokemon(e.target.value);
   },
 
   sortPokemon(sortBy) {
@@ -19535,34 +19542,38 @@ var Pokedex = React.createClass({
       null,
       React.createElement(
         'div',
-        { className: 'text-center' },
+        { className: 'row' },
         React.createElement(
-          'button',
-          { className: 'btn btn-primary', onClick: this.filterPokemon },
-          'Filter'
+          'div',
+          { className: 'col-xs-12 col-sm-5 col-sm-offset-1' },
+          React.createElement('input', { className: 'form-control', value: this.state.filterValue, onChange: this.handleFilterChange, placeholder: 'Name or Number to filter by' })
         ),
         React.createElement(
-          'select',
-          { value: this.state.sortValue, onChange: this.handleSortChange, className: 'form-control' },
+          'div',
+          { className: 'col-xs-12 col-sm-5' },
           React.createElement(
-            'option',
-            { value: 'nameAsc' },
-            'A-Z'
-          ),
-          React.createElement(
-            'option',
-            { value: 'nameDsc' },
-            'Z-A'
-          ),
-          React.createElement(
-            'option',
-            { value: 'numberAsc' },
-            'Lowest Number'
-          ),
-          React.createElement(
-            'option',
-            { value: 'numberDsc' },
-            'Highest Number'
+            'select',
+            { className: 'form-control', value: this.state.sortValue, onChange: this.handleSortChange },
+            React.createElement(
+              'option',
+              { value: 'nameAsc' },
+              'A-Z'
+            ),
+            React.createElement(
+              'option',
+              { value: 'nameDsc' },
+              'Z-A'
+            ),
+            React.createElement(
+              'option',
+              { value: 'numberAsc' },
+              'Lowest Number'
+            ),
+            React.createElement(
+              'option',
+              { value: 'numberDsc' },
+              'Highest Number'
+            )
           )
         )
       ),
