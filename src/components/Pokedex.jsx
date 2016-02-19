@@ -85,12 +85,20 @@ var Pokedex = React.createClass({
       var displayPokemon = this.state.pokemonList.map(function(pokemon){
         return <Pokemon key={pokemon.name} name={pokemon.name} data={pokemon.stats} />;
       }.bind(this));
+      
+      var pokemonLength = this.state.pokemonList.length - 1;
+
+      if (this.state.pokemonList[pokemonLength].stats){
+        if (this.state.pokemonList[pokemonLength].stats.image){
+          var filterAndSort = <FilterAndSort filterValue={this.state.filterValue} sortValue={this.state.sortValue} 
+                               handleFilterChange={this.handleFilterChange} handleSortChange={this.handleSortChange} />
+        };
+      };
     }
 
     return (
       <div>
-        <FilterAndSort filterValue={this.state.filterValue} sortValue={this.state.sortValue} 
-                       handleFilterChange={this.handleFilterChange} handleSortChange={this.handleSortChange} />
+        <div>{filterAndSort}</div>
         <div className="wrapper">{displayPokemon}</div>
       </div>
     );

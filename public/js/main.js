@@ -19430,7 +19430,7 @@ var FilterAndSort = React.createClass({
   render: function () {
     return React.createElement(
       "div",
-      { className: "row" },
+      { className: "row filter-sort fade-in" },
       React.createElement(
         "div",
         { className: "col-xs-12 col-sm-5 col-sm-offset-1" },
@@ -19586,13 +19586,25 @@ var Pokedex = React.createClass({
       var displayPokemon = this.state.pokemonList.map(function (pokemon) {
         return React.createElement(Pokemon, { key: pokemon.name, name: pokemon.name, data: pokemon.stats });
       }.bind(this));
+
+      var pokemonLength = this.state.pokemonList.length - 1;
+
+      if (this.state.pokemonList[pokemonLength].stats) {
+        if (this.state.pokemonList[pokemonLength].stats.image) {
+          var filterAndSort = React.createElement(FilterAndSort, { filterValue: this.state.filterValue, sortValue: this.state.sortValue,
+            handleFilterChange: this.handleFilterChange, handleSortChange: this.handleSortChange });
+        };
+      };
     }
 
     return React.createElement(
       'div',
       null,
-      React.createElement(FilterAndSort, { filterValue: this.state.filterValue, sortValue: this.state.sortValue,
-        handleFilterChange: this.handleFilterChange, handleSortChange: this.handleSortChange }),
+      React.createElement(
+        'div',
+        null,
+        filterAndSort
+      ),
       React.createElement(
         'div',
         { className: 'wrapper' },

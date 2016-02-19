@@ -11,9 +11,6 @@
 
 }
 
-
-
-
 @font-face {
     font-family: 'pokemon_solidnormal';
     src: url('../fonts/pokemon_solid-webfont.eot');
@@ -91,4 +88,24 @@
   .type-16{background: #7038F8;}
   .type-17{background: #705848;}
   .type-18{background: #705848;}
+}
+
+.filter-sort{
+  opacity: 0;
+}
+
+.fade-in{
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  animation-name: fadeIn;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }

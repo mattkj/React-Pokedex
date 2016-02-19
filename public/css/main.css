@@ -55,3 +55,10 @@
 .pokemon .type-17 { background: #705848; }
 
 .pokemon .type-18 { background: #705848; }
+
+.filter-sort { opacity: 0; }
+
+.fade-in { animation-duration: 1s; animation-fill-mode: both; animation-name: fadeIn; }
+
+@keyframes fadeIn { from { opacity: 0; }
+  to { opacity: 1; } }

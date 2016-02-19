@@ -3,7 +3,7 @@ var React = require('react');
 var FilterAndSort = React.createClass({
   render: function(){
     return(
-      <div className="row">
+      <div className="row filter-sort fade-in">
         <div className="col-xs-12 col-sm-5 col-sm-offset-1">
           <input className="form-control" value={this.props.filterValue} onChange={this.props.handleFilterChange} placeholder="Name or Number to filter by" />
         </div>
