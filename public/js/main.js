@@ -19424,6 +19424,55 @@ process.umask = function() { return 0; };
 },{}],160:[function(require,module,exports){
 var React = require('react');
 
+var FilterAndSort = React.createClass({
+  displayName: "FilterAndSort",
+
+  render: function () {
+    return React.createElement(
+      "div",
+      { className: "row" },
+      React.createElement(
+        "div",
+        { className: "col-xs-12 col-sm-5 col-sm-offset-1" },
+        React.createElement("input", { className: "form-control", value: this.props.filterValue, onChange: this.props.handleFilterChange, placeholder: "Name or Number to filter by" })
+      ),
+      React.createElement(
+        "div",
+        { className: "col-xs-12 col-sm-5" },
+        React.createElement(
+          "select",
+          { className: "form-control", value: this.props.sortValue, onChange: this.props.handleSortChange },
+          React.createElement(
+            "option",
+            { value: "nameAsc" },
+            "A-Z"
+          ),
+          React.createElement(
+            "option",
+            { value: "nameDsc" },
+            "Z-A"
+          ),
+          React.createElement(
+            "option",
+            { value: "numberAsc" },
+            "Lowest Number"
+          ),
+          React.createElement(
+            "option",
+            { value: "numberDsc" },
+            "Highest Number"
+          )
+        )
+      )
+    );
+  }
+});
+
+module.exports = FilterAndSort;
+
+},{"react":157}],161:[function(require,module,exports){
+var React = require('react');
+
 var Image = React.createClass({
   displayName: "Image",
 
@@ -19450,10 +19499,12 @@ var Image = React.createClass({
 
 module.exports = Image;
 
-},{"react":157}],161:[function(require,module,exports){
+},{"react":157}],162:[function(require,module,exports){
 var React = require('react');
 var HTTP = require('../services/http.js');
+
 var Pokemon = require('./Pokemon.jsx');
+var FilterAndSort = require('./FilterAndSort.jsx');
 
 var Pokedex = React.createClass({
   displayName: 'Pokedex',
@@ -19540,43 +19591,8 @@ var Pokedex = React.createClass({
     return React.createElement(
       'div',
       null,
-      React.createElement(
-        'div',
-        { className: 'row' },
-        React.createElement(
-          'div',
-          { className: 'col-xs-12 col-sm-5 col-sm-offset-1' },
-          React.createElement('input', { className: 'form-control', value: this.state.filterValue, onChange: this.handleFilterChange, placeholder: 'Name or Number to filter by' })
-        ),
-        React.createElement(
-          'div',
-          { className: 'col-xs-12 col-sm-5' },
-          React.createElement(
-            'select',
-            { className: 'form-control', value: this.state.sortValue, onChange: this.handleSortChange },
-            React.createElement(
-              'option',
-              { value: 'nameAsc' },
-              'A-Z'
-            ),
-            React.createElement(
-              'option',
-              { value: 'nameDsc' },
-              'Z-A'
-            ),
-            React.createElement(
-              'option',
-              { value: 'numberAsc' },
-              'Lowest Number'
-            ),
-            React.createElement(
-              'option',
-              { value: 'numberDsc' },
-              'Highest Number'
-            )
-          )
-        )
-      ),
+      React.createElement(FilterAndSort, { filterValue: this.state.filterValue, sortValue: this.state.sortValue,
+        handleFilterChange: this.handleFilterChange, handleSortChange: this.handleSortChange }),
       React.createElement(
         'div',
         { className: 'wrapper' },
@@ -19588,7 +19604,7 @@ var Pokedex = React.createClass({
 
 module.exports = Pokedex;
 
-},{"../services/http.js":165,"./Pokemon.jsx":162,"react":157}],162:[function(require,module,exports){
+},{"../services/http.js":166,"./FilterAndSort.jsx":160,"./Pokemon.jsx":163,"react":157}],163:[function(require,module,exports){
 var React = require('react');
 var Image = require('./Image.jsx');
 var Type = require('./Type.jsx');
@@ -19651,7 +19667,7 @@ var Pokemon = React.createClass({
 
 module.exports = Pokemon;
 
-},{"./Image.jsx":160,"./Type.jsx":163,"react":157}],163:[function(require,module,exports){
+},{"./Image.jsx":161,"./Type.jsx":164,"react":157}],164:[function(require,module,exports){
 var React = require('react');
 
 var Type = React.createClass({
@@ -19673,14 +19689,14 @@ var Type = React.createClass({
 
 module.exports = Type;
 
-},{"react":157}],164:[function(require,module,exports){
+},{"react":157}],165:[function(require,module,exports){
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Pokedex = require('./components/Pokedex.jsx');
 
 ReactDOM.render(React.createElement(Pokedex, null), document.getElementById('pokedex'));
 
-},{"./components/Pokedex.jsx":161,"react":157,"react-dom":1}],165:[function(require,module,exports){
+},{"./components/Pokedex.jsx":162,"react":157,"react-dom":1}],166:[function(require,module,exports){
 var Fetch = require('whatwg-fetch');
 var baseUrl = "http://pokeapi.co";
 
@@ -19694,4 +19710,4 @@ var HTTP = {
 
 module.exports = HTTP;
 
-},{"whatwg-fetch":159}]},{},[164]);
+},{"whatwg-fetch":159}]},{},[165]);

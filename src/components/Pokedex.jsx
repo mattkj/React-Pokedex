@@ -1,6 +1,8 @@
 var React = require('react');
 var HTTP = require('../services/http.js');
+
 var Pokemon = require('./Pokemon.jsx');
+var FilterAndSort = require('./FilterAndSort.jsx');
 
 var Pokedex = React.createClass({
   getInitialState: function(){
@@ -87,19 +89,8 @@ var Pokedex = React.createClass({
 
     return (
       <div>
-        <div className="row">
-          <div className="col-xs-12 col-sm-5 col-sm-offset-1">
-            <input className="form-control" value={this.state.filterValue} onChange={this.handleFilterChange} placeholder="Name or Number to filter by" />
-          </div>
-          <div className="col-xs-12 col-sm-5">
-            <select className="form-control" value={this.state.sortValue} onChange={this.handleSortChange}>
-              <option value="nameAsc">A-Z</option>
-              <option value="nameDsc">Z-A</option>
-              <option value="numberAsc">Lowest Number</option>
-              <option value="numberDsc">Highest Number</option>
-            </select>
-          </div>
-        </div>
+        <FilterAndSort filterValue={this.state.filterValue} sortValue={this.state.sortValue} 
+                       handleFilterChange={this.handleFilterChange} handleSortChange={this.handleSortChange} />
         <div className="wrapper">{displayPokemon}</div>
       </div>
     );
