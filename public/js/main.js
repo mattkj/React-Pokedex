@@ -19519,7 +19519,7 @@ var Pokedex = React.createClass({
   },
   getPokemonList: function () {
     HTTP.get('/api/v1/pokedex/1/').then(function (data) {
-      this.setState({ pokemonList: data.pokemon.slice(0, 24) });
+      this.setState({ pokemonList: data.pokemon.slice(0, 48) });
       this.sortPokemon(this.state.sortValue);
       this.state.pokemonList.map(function (pokemon, index) {
         this.getPokemonStats(pokemon.resource_uri, index);
@@ -19544,16 +19544,8 @@ var Pokedex = React.createClass({
     }.bind(this));
   },
 
-  filterPokemon: function () {
-    // var filteredList = this.state.pokemonList.filter(function(pokemon){
-    //   return pokemon.name <= "c";
-    // });
-    // this.setState({pokemonList: filteredList});
-  },
-
   handleFilterChange: function (e) {
-    this.setState({ filterValue: e.target.value });
-    this.filterPokemon(e.target.value);
+    this.setState({ filterValue: e.target.value.toLowerCase() });
   },
 
   sortPokemon: function (sortBy) {
@@ -19583,7 +19575,12 @@ var Pokedex = React.createClass({
 
   render: function () {
     if (this.state.pokemonList) {
-      var displayPokemon = this.state.pokemonList.map(function (pokemon) {
+
+      var filteredList = this.state.pokemonList.filter(function (pokemon) {
+        return pokemon.name.indexOf(this.state.filterValue) !== -1;
+      }.bind(this));
+
+      var displayPokemon = filteredList.map(function (pokemon) {
         return React.createElement(Pokemon, { key: pokemon.name, name: pokemon.name, data: pokemon.stats });
       }.bind(this));
 
