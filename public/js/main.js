@@ -19434,7 +19434,7 @@ var FilterAndSort = React.createClass({
       React.createElement(
         "div",
         { className: "col-xs-12 col-sm-5 col-sm-offset-1" },
-        React.createElement("input", { className: "form-control", value: this.props.filterValue, onChange: this.props.handleFilterChange, placeholder: "Name or Number to filter by" })
+        React.createElement("input", { className: "form-control", value: this.props.filterValue, onChange: this.props.handleFilterChange, placeholder: "Name to filter by" })
       ),
       React.createElement(
         "div",
