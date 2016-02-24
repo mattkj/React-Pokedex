@@ -1,27 +1,34 @@
 var React = require('react');
 var HTTP = require('../services/http.js');
 
+var Reflux = require('reflux');
+var Actions = require('../reflux/Actions.js');
+var Store = require('../reflux/Store.js');
+
 var Pokemon = require('./Pokemon.jsx');
 var FilterAndSort = require('./FilterAndSort.jsx');
 
 var Pokedex = React.createClass({
+  mixins: [Reflux.listenTo(Store, "receivedPokemonList")],
+
   getInitialState: function(){
     return {pokemonList: null, 
             sortValue: 'nameAsc', 
             filterValue: ''};
   },
-  componentDidMount: function(){
-    this.getPokemonList();
-  },
-  getPokemonList: function(){
-    HTTP.get('/api/v1/pokedex/1/')
-    .then(function(data) {
-      this.setState({pokemonList: data.pokemon.slice(0, 24)});
-      this.sortPokemon(this.state.sortValue);
-      this.state.pokemonList.map(function(pokemon, index){
-        this.getPokemonStats(pokemon.resource_uri, index);
-      }.bind(this));
+
+  receivedPokemonList: function(data){
+    console.log('RECEIVED DATA FROM STORE');
+    this.setState({pokemonList: data.pokemon.slice(0, 24)});
+    this.sortPokemon(this.state.sortValue);
+    this.state.pokemonList.map(function(pokemon, index){
+      this.getPokemonStats(pokemon.resource_uri, index);
     }.bind(this));
+  },
+
+  componentDidMount: function(){
+    console.log('ACTION GOT CALLED');
+    Actions.getPokemonList();
   },
 
   getPokemonStats: function(url, index){
