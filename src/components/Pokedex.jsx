@@ -16,7 +16,7 @@ var Pokedex = React.createClass({
   getPokemonList: function(){
     HTTP.get('/api/v1/pokedex/1/')
     .then(function(data) {
-      this.setState({pokemonList: data.pokemon.slice(0, 48)});
+      this.setState({pokemonList: data.pokemon.slice(0, 24)});
       this.sortPokemon(this.state.sortValue);
       this.state.pokemonList.map(function(pokemon, index){
         this.getPokemonStats(pokemon.resource_uri, index);
